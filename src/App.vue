@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <router-view />
   </div>
 </template>
@@ -16,3 +16,9 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.app {
+  padding: 20px;
+}
+</style>

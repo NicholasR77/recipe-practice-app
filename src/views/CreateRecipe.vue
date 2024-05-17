@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Create a New Recipe</h2>
-    <RecipeForm />
+        <RecipeForm />
     </div>
 </template>
   

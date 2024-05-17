@@ -17,7 +17,7 @@
                     <div class="p-field">
                         <div class="p-inputgroup">
                             <span class="p-inputgroup-addon">Add a New Step</span>
-                            <InputText id="stepDescription" v-model="newStepDescription" placeholder="Step description"
+                            <Textarea id="stepDescription" v-model="newStepDescription" placeholder="Step description" rows="3"
                                 @keyup.enter="addStep" />
                             <Button icon="pi pi-plus" class="p-button-secondary" @click="addStep"></Button>
                         </div>
@@ -25,6 +25,8 @@
                 </div>
 
                 <div v-if="recipeSteps.length > 0" class="p-mt-4">
+                    <br><br>
+                    <h3>Current Steps</h3>
                     <DataTable :value="recipeSteps" dragdrop dragdropScope="steps" @rowReorder="onRowReorder" :reorderableColumns="true">
                         <Column rowReorder headerStyle="width: 3rem" :reorderableColumn="false" />
                         <Column field="description" headerStyle="width: 100%" :sortable="false">
@@ -37,17 +39,17 @@
                             </template>
                         </Column>
                     </DataTable>
+                    <br><br>
                 </div>
             </TabPanel>
         </TabView>
-        <br>
-        <Button type="submit" label="Add Recipe" icon="pi pi-check" class="p-mt-2" @click="addRecipe"></Button>
     </div>
+
+    <br>
+    <Button type="submit" label="Add Recipe" icon="pi pi-check" class="p-mt-2" style="width: 10rem" @click="submitRecipe"></Button>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
@@ -56,33 +58,17 @@ import TabPanel from 'primevue/tabpanel';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-const newRecipeTitle = ref('');
-const newRecipeDescription = ref('');
-const newStepDescription = ref('');
-const recipeSteps = ref([]);
-const router = useRouter();
+import { useRecipeForm } from '@/composables/useRecipeForm';
 
-const addRecipe = () => {
-    // Logic to add a new recipe
-    alert(`Recipe "${newRecipeTitle.value}" with description "${newRecipeDescription.value}" and ${recipeSteps.value.length} steps added!`);
-    newRecipeTitle.value = '';
-    newRecipeDescription.value = '';
-    recipeSteps.value = [];
-    newStepDescription.value = '';
-    // Navigate to the recipe list or detail view
-    router.push('/recipes'); // Adjust the route as needed
-};
-
-const addStep = () => {
-    if (newStepDescription.value.trim()) {
-        recipeSteps.value.push({ description: newStepDescription.value });
-        newStepDescription.value = '';
-    }
-};
-
-const removeStep = (index) => {
-    recipeSteps.value.splice(index, 1);
-};
+const {
+  newRecipeTitle,
+  newRecipeDescription,
+  newStepDescription,
+  recipeSteps,
+  addStep,
+  removeStep,
+  submitRecipe,
+} = useRecipeForm();
 
 const onRowReorder = (event) => {
     recipeSteps.value = event.value;
