@@ -17,7 +17,7 @@
                     <div class="p-field">
                         <div class="p-inputgroup">
                             <span class="p-inputgroup-addon">Add a New Step</span>
-                            <Textarea id="stepDescription" v-model="newStepDescription" placeholder="Step description" rows="3"
+                            <InputText id="stepDescription" v-model="newStepDescription" placeholder="Step description"
                                 @keyup.enter="addStep" />
                             <Button icon="pi pi-plus" class="p-button-secondary" @click="addStep"></Button>
                         </div>
