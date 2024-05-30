@@ -46,10 +46,14 @@
     </div>
 
     <br>
-    <Button type="submit" label="Add Recipe" icon="pi pi-check" class="p-mt-2" style="width: 10rem" @click="submitRecipe"></Button>
+    <Message v-if="wasCreated" severity="success">Recipe Creted Succesfully</Message>
+    <Button type="submit" label="Add Recipe" icon="pi pi-check" class="p-mt-2" style="width: 10rem" @click="submitRecipe" :disabled="wasCreated"></Button>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+import { watch } from 'vue';
+
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
@@ -57,8 +61,11 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Message from 'primevue/message';
 
-import { useRecipeForm } from '@/composables/useRecipeForm';
+import { useRecipeForm } from '../composables/useRecipeForm';
+
+const REDIRECT_DELAY=2000;
 
 const {
   newRecipeTitle,
@@ -68,11 +75,21 @@ const {
   addStep,
   removeStep,
   submitRecipe,
+  wasCreated,
 } = useRecipeForm();
+const router = useRouter();
 
 const onRowReorder = (event) => {
     recipeSteps.value = event.value;
 };
+
+watch(wasCreated, (val) => {
+    if (val) {
+        setTimeout(() => {
+            router.push('/view')
+        }, REDIRECT_DELAY);
+    }
+})
 </script>
 
 <style scoped>

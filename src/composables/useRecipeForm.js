@@ -6,6 +6,7 @@ export function useRecipeForm() {
   const newRecipeDescription = ref('');
   const newStepDescription = ref('');
   const recipeSteps = ref([]);
+  const wasCreated = ref(false);
 
   const addStep = () => {
     if (newStepDescription.value.trim()) {
@@ -27,9 +28,13 @@ export function useRecipeForm() {
         description: newRecipeDescription.value,
         steps: recipeSteps.value,
       });
-
+     
+      if (response.status === 201) {
+        wasCreated.value = true;
+      }
   
     } catch (error) {
+      console.error('Something happened: ' + error);
     }
   };
 
@@ -38,6 +43,7 @@ export function useRecipeForm() {
     newRecipeDescription,
     newStepDescription,
     recipeSteps,
+    wasCreated,
     addStep,
     removeStep,
     submitRecipe,
