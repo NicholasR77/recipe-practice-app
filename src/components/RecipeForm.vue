@@ -46,7 +46,7 @@
     </div>
 
     <br>
-    <Message v-if="wasCreated" severity="success">Recipe Creted Succesfully</Message>
+    <Message v-if="wasCreated" severity="success">Recipe Created Succesfully</Message>
     <Button type="submit" label="Add Recipe" icon="pi pi-check" class="p-mt-2" style="width: 10rem" @click="submitRecipe" :disabled="wasCreated"></Button>
 </template>
 
